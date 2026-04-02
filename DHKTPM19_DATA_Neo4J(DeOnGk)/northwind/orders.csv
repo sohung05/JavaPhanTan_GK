@@ -1,0 +1,11 @@
+order_id,customer_name,employee_name,order_date,status
+O001,John Doe,Alice Brown,2024-03-01,COMPLETED
+O002,Mary Smith,Bob Johnson,2024-03-02,COMPLETED
+O003,Michael Wilson,Charlie Davis,2024-03-03,CANCELLED
+O004,Emily Johnson,Diana Evans,2024-03-04,COMPLETED
+O005,James Brown,Frank Harris,2024-03-05,COMPLETED
+O006,Linda White,George Clark,2024-03-06,COMPLETED
+O007,David Lee,Helen Lewis,2024-03-07,CANCELLED
+O008,Emma Harris,Ian Walker,2024-03-08,COMPLETED
+O009,Robert Miller,Jessica Hall,2024-03-09,COMPLETED
+O010,Sophia Anderson,Kevin Young,2024-03-10,COMPLETED

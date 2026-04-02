@@ -1,0 +1,21 @@
+product_id,product_name,unit,unit_price,units_in_stock,supplier_id
+P001,Chai,10 boxes x 20 bags,18.0,39,S001
+P002,Chang,24 - 12 oz bottles,19.0,17,S001
+P003,Aniseed Syrup,12 - 550 ml bottles,10.0,13,S001
+P004,Chef Anton's Cajun Seasoning,48 - 6 oz jars,22.0,53,S002
+P005,Chef Anton's Gumbo Mix,36 boxes,21.35,0,S002
+P006,Grandma's Boysenberry Spread,12 - 8 oz jars,25.0,120,S003
+P007,Uncle Bob's Organic Dried Pears,12 - 1 lb pkgs.,30.0,15,S003
+P008,Northwoods Cranberry Sauce,12 - 12 oz jars,40.0,6,S003
+P009,Mishi Kobe Niku,18 - 500 g pkgs.,97.0,29,S004
+P010,Ikura,12 - 200 ml jars,31.0,31,S004
+P011,Queso Cabrales,1 kg pkg.,21.0,22,S005
+P012,Queso Manchego La Pastora,10 - 500 g pkgs.,38.0,86,S005
+P013,Konbu,2 kg box,6.0,24,S006
+P014,Tofu,40 - 100 g pkgs.,23.25,35,S006
+P015,Genen Shouyu,24 - 250 ml bottles,15.5,39,S006
+P016,Pavlova,32 - 500 g boxes,17.45,29,S007
+P017,Alice Mutton,20 - 1 kg tins,39.0,0,S007
+P018,Carnarvon Tigers,16 kg pkg.,62.5,42,S007
+P019,Teatime Chocolate Biscuits,10 boxes x 12 pieces,9.2,25,S008
+P020,Sir Rodney's Marmalade,30 gift boxes,81.0,40,S008
