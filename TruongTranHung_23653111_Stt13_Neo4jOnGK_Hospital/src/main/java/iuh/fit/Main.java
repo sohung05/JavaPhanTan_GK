@@ -17,13 +17,13 @@ import iuh.fit.entity.Doctor;
  */
 public class Main {
     public static void main(String[] args) {
-        DoctorDao dao = new DoctorDao();
-        Doctor doctor = new Doctor("Dr.789", "Hung", "123457", "Rang Ham Mat");
-        System.out.println(dao.addDoctor(doctor));
-        dao.getNoOfDoctorsBySpeciality("Preventive Medicine")
-                .forEach((k,v) -> System.out.println(k + ": " + v));
-        dao.lisDocTorsBySpeciality("Internal").forEach(System.out::println );
-        System.out.println(DoctorDao.updateDiagnosis("PT005","DR.011", "Huy"));
+//        DoctorDao dao = new DoctorDao();
+//        Doctor doctor = new Doctor("Dr.789", "Hung", "123457", "Rang Ham Mat");
+//        System.out.println(dao.addDoctor(doctor));
+//        dao.getNoOfDoctorsBySpeciality("Preventive Medicine")
+//                .forEach((k,v) -> System.out.println(k + ": " + v));
+//        dao.lisDocTorsBySpeciality("Internal").forEach(System.out::println );
+//        System.out.println(DoctorDao.updateDiagnosis("PT005","DR.011", "Huy"));
     }
 
 }

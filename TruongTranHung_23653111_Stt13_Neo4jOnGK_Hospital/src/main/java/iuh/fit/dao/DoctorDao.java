@@ -27,28 +27,33 @@ import java.util.stream.Collectors;
  * @version:    1.0
  */
 public class DoctorDao {
-   public boolean addDoctor(Doctor doctor) {
-       String query =
-               """
-                       CREATE(d:Doctor)
-                       SET d.id = $id ,d.name = $name, d.phone = $phone, d.speciality =$speciality
-                       RETURN d
-               """;
-       Map<String, Object> params = Map.of(
-               "id", doctor.getId(),
-               "name",doctor.getName(),
-               "phone",doctor.getPhone(),
-               "speciality",doctor.getSpeciality()
 
-       );
-       try(Session session = AppUntils.getSession()){
-           return session.executeWrite( tx ->{
-               ResultSummary resultSummary =tx.run(query, params).consume();
-               return resultSummary.counters().nodesCreated() >0;
-           });
+    //a, CREATE → SET → Map → executeWrite → nodesCreated > 0
+    public boolean addDoctor (Doctor doctor){
+        String query = """
+                CREATE (d:Doctor)
+                    SET d.id=$id, d.name = $name, d.phone= $phone, d.sepcialitys=  $sepcialitys
+                    RETURN d
+                """;
+        //Tạo Map để truyền tham số vào câu Cypher
+        Map<String, Object > params = Map.of(
+                "id",doctor.getId(),
+                "name",doctor.getName(),
+                "phone",doctor.getPhone(),
+                "sepcialitys",doctor.getSpeciality()
+        );
+        //Mở kết nối đến database (Neo4j)
+        try(Session session = AppUntils.getSession()){
+            return session.executeWrite( tx->{
+                //Chạy câu Cypher:
+                ResultSummary resultSummary = tx.run(query, params).consume();
+                //Kiem tra Có tạo node thành công không
+                return resultSummary.counters().nodesCreated() > 0;
+            });
 
-       }
-   }
+        }
+    }
+    //b
     public Map<String,Long> getNoOfDoctorsBySpeciality(String departmentName) {
         String query =
                 """
@@ -60,11 +65,17 @@ public class DoctorDao {
         Map<String, Object> params = Map.of(
                 "depName", departmentName
         );
+        //Mở session
         try(Session session = AppUntils.getSession()){
+            //Đây là truy vấn chỉ đọc dữ liệu
             return session.executeRead(tx ->{
+//                Gửi câu Cypher lên Neo4j
+//                nhận về kết quả dạng TABLE
                 Result res = tx.run(query, params);
                 return res
+                        //chuyển bảng kết quả thành từng dòngc
                         .stream()
+                        //gom tất cả record lại thành Map
                         .collect(Collectors.toMap(
                                 r -> r.get("speciality").asString(),
                                 r -> r.get("total").asLong()
@@ -74,7 +85,7 @@ public class DoctorDao {
 
         }
     }
-
+    //c
     public List<Doctor>  lisDocTorsBySpeciality (String keyword) {
         String query =
                 """
@@ -89,16 +100,20 @@ public class DoctorDao {
             return session.executeRead( tx ->{
                 Result res = tx.run(query, params);
                 return res
+                        //Biến bảng kết quả thành từng dòng
                         .stream()
+                        //chuyển mỗi record → 1 object Doctor
                         .map( r ->  {
-                                Node node = r.get("node").asNode();
-                                return new Doctor(
-                                        node.get("id").asString(),
-                                        node.get("name").asString(),
-                                        node.get("phone").asString(),
-                                        node.get("speciality").asString()
+                            //Chuyển từ Neo4j Node → Java Object
+                            Node node = r.get("node").asNode();
+                            //chuyển mỗi record → 1 object Doctor
+                            return new Doctor(
+                                    node.get("id").asString(),
+                                    node.get("name").asString(),
+                                    node.get("phone").asString(),
+                                    node.get("speciality").asString()
 
-                                );
+                            );
                         })
                         .toList();
             });
@@ -106,8 +121,8 @@ public class DoctorDao {
 
         }
     }
-
-    public static boolean updateDiagnosis(String partientID, String doctorID, String diagnosis) {
+    //d,
+    public static boolean updateDiagnosis(String partientID, String doctorID, String newDiagnosis) {
         String query =
                 """
                         MATCH (d:Doctor)<-[r:BE_TREATED]-(p:Patient)
@@ -117,28 +132,26 @@ public class DoctorDao {
         Map<String, Object> params = Map.of(
                 "doctorID", doctorID,
                 "partientID", partientID,
-                "diagnosis", diagnosis
+                "diagnosis", newDiagnosis
 
 
         );
         try(Session session = AppUntils.getSession()){
-                return session.executeWrite(tx->{
-                    ResultSummary resultSummary = tx.run(query,params).consume();
-                    return resultSummary.counters().propertiesSet() > 0;
-                });
+            return session.executeWrite(tx->{
+                ResultSummary resultSummary = tx.run(query,params).consume();//“consume = chỉ quan tâm query chạy thành công, không cần data”
+                return resultSummary.counters().propertiesSet() > 0;
+            });
         }
     }
-public static void main(String[] args) {
-    DoctorDao dao = new DoctorDao();
 
-//        Doctor doctor = new Doctor("Dr.788", "Hung", "123457", "Rang Ham Mat");
-//        System.out.println(dao.addDoctor(doctor));
-
-//        dao.getNoOfDoctorsBySpeciality("Preventive Medicine")
-//                .forEach((k,v) -> System.out.println(k + ": " + v));\
-
-//        dao.lisDocTorsBySpeciality("Internal").forEach(System.out::println );
-    System.out.println(updateDiagnosis("PT005","DR.011", "Lalalala"));
-}
+    public static void main(String[] args) {
+        DoctorDao dao = new DoctorDao();
+//        Doctor doctor = new Doctor ("Dr.78090", "HungHung", "1234579", "Rang Ham Mat");
+//        System.out.println("Ket qua tra ve: " + dao.addDoctor(doctor));
+//                dao.getNoOfDoctorsBySpeciality("Community Medicine")
+//                .forEach((k,v) -> System.out.println(k + ": " + v));
+                dao.lisDocTorsBySpeciality("Community medicine").forEach(System.out::println );
+//        System.out.println(updateDiagnosis("PT005","DR.011", "Lalalala"));
+    }
 
 }
