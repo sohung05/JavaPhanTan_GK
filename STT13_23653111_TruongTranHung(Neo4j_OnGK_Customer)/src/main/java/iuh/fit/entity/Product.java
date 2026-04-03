@@ -28,4 +28,11 @@ public class Product {
 
     private Supplier supplier;
 
+    public Product(String producId, String productName, String unit, double unitPrice, int unitsInStock) {
+        this.producId = producId;
+        this.productName = productName;
+        this.unit = unit;
+        this.unitPrice = unitPrice;
+        this.unitsInStock = unitsInStock;
+    }
 }
